@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Edit Tweet</h2>
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  {{ form.non_field_errors }}
+  <div class="mb-3">
+    {{ form.text.label_tag }}
+    {{ form.text }}
+    {{ form.text.errors }}
+  </div>
+  <div class="mb-3">
+    Current photo:
+    {% if tweet.photo %}
+      <img src="{{ tweet.photo.url }}" style="max-height:200px;">
+    {% else %}
+      <p>No photo</p>
+    {% endif %}
+    <br>
+    {{ form.photo.label_tag }}
+    {{ form.photo }}
+  </div>
+  <button class="btn btn-primary" type="submit">Save</button>
+  <a href="{% url 'tweet_list' %}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

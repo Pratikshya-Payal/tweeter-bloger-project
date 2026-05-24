@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Create Tweet</h2>
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  {{ form.non_field_errors }}
+  <div class="mb-3">
+    {{ form.text.label_tag }}
+    {{ form.text }}
+    {{ form.text.errors }}
+  </div>
+  <div class="mb-3">
+    {{ form.photo.label_tag }}
+    {{ form.photo }}
+    {{ form.photo.errors }}
+  </div>
+  <button class="btn btn-success" type="submit">Post</button>
+  <a href="{% url 'tweet_list' %}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

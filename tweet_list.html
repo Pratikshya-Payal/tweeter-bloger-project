@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Tweets</h1>
+
+{% if user.is_authenticated %}
+  <div class="mb-4">
+    <a class="btn btn-primary" href="{% url 'tweet_create' %}">Create Tweet</a>
+  </div>
+{% else %}
+  <p><a href="{% url 'login' %}">Login</a> to post tweets.</p>
+{% endif %}
+
+{% for tweet in tweets %}
+  <div class="card mb-3">
+    <div class="card-body">
+      <h6 class="card-subtitle mb-2 text-muted">{{ tweet.user.username }} • {{ tweet.created_at|date:"M d, Y H:i" }}</h6>
+      <p class="card-text">{{ tweet.text }}</p>
+      {% if tweet.photo %}
+        <img src="{{ tweet.photo.url }}" alt="photo" class="img-fluid mb-2" style="max-height:300px;">
+      {% endif %}
+      {% if user.is_authenticated and tweet.user == user %}
+        <a href="{% url 'tweet_edit' tweet.pk %}" class="btn btn-sm btn-outline-secondary">Edit</a>
+        <a href="{% url 'tweet_delete' tweet.pk %}" class="btn btn-sm btn-danger">Delete</a>
+      {% endif %}
+    </div>
+  </div>
+{% empty %}
+  <p>No tweets yet.</p>
+{% endfor %}
+{% endblock %}
